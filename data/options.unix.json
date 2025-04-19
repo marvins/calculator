@@ -1,9 +1,13 @@
 {
     "config_file": {
-        "date_written": "2025/4/19 9:56:35"
+        "date_written": "2025/4/19 10:44:9"
     },
     "screen": {
         "height": 320,
         "width": 320
+    },
+    "app": {
+        "header_height": 30,
+        "footer_height": 30
     }
 }

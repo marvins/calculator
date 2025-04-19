@@ -20,6 +20,7 @@ while [ $# -gt 0 ]; do
             GEN_CONFIG=1
             ;;
     esac
+    shift
 done
 
 #  Enter Application Folder

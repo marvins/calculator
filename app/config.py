@@ -20,6 +20,10 @@ class Configuration:
         self.cmd_args = cmd_args
         self.cfg_args = cfg_args
 
+    def get( self, section: str, key: str ):
+
+        return self.cfg_args[section][key]
+
     @staticmethod
     def print_usage( app_name ):
 
@@ -82,7 +86,9 @@ class Configuration:
         #  Create the dictionary
         data = {  'config_file': { 'date_written': f'{dtinfo[0]}/{dtinfo[1]}/{dtinfo[2]} {dtinfo[3]}:{dtinfo[4]}:{dtinfo[5]}' },
                   'screen': { 'width': 320,
-                             'height': 320 } }
+                             'height': 320  },
+                  'app': { 'header_height': 30,
+                           'footer_height': 30 } }
         with open( pathname, 'w' ) as fout:
         
             fout.write( json.dumps( data ) )

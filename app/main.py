@@ -9,13 +9,21 @@ import sys
 
 #  Project Libraries
 from config import Configuration
+from drivers.manager import Driver_Manager
+from pages.Main_Window import Main_Window
 
 def main():
 
+    #  Parse the configuration
     config = Configuration.parse( sys.argv )
-    print( config.cfg_args )
+    
+    #  Determine our driver
+    driver = Driver_Manager.load( config )
+    
+    #  Build the main window
+    window = Main_Window.create( config, driver )
 
-
+    return window.run()
 
 if __name__ == '__main__':
     main()
