@@ -4,7 +4,8 @@
 MP_PATH='../lv_micropython/ports/unix/build-lvgl/micropython'
 MPC_PATH='../lv_micropython/mpy-cross/build/mpy-cross'
 
-GEN_CONFIG='0'
+GEN_CONFIG=0
+SKIP_RESET=0
 
 function usage() {
     echo 'usage:  run_unix.sh [optional]'
@@ -18,6 +19,10 @@ while [ $# -gt 0 ]; do
     case $1 in 
         -g)
             GEN_CONFIG=1
+            ;;
+        
+        -s)
+            SKIP_RESET=1
             ;;
     esac
     shift
@@ -37,4 +42,6 @@ fi
 popd
 
 #  Reset terminal
-reset
+if [ "${SKIP_RESET}" = '0' ]; then
+    reset
+fi

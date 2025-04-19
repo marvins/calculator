@@ -20,9 +20,32 @@ class Configuration:
         self.cmd_args = cmd_args
         self.cfg_args = cfg_args
 
-    def get( self, section: str, key: str ):
+        self.global_styles = {}
+
+        self.load_image_list()
+
+    def get_global( self, key: str ):
+        return self.cfg_args[key]
+    
+    def get_section( self, section: str, key: str ):
 
         return self.cfg_args[section][key]
+
+    def load_image_list(self):
+
+        with open( self.cfg_args['image_lut'], 'r' ) as fin:
+            self.image_list = json.loads( fin.read() )
+
+
+    def get_image_path( self, tag: str ):
+        return self.image_list[tag]
+    
+    #  Add a global font
+    def add_global_style( self, name, style ):
+        self.global_styles[name] = style
+    
+    def get_global_style( self, name ):
+        return self.global_styles[name]
 
     @staticmethod
     def print_usage( app_name ):
@@ -88,7 +111,10 @@ class Configuration:
                   'screen': { 'width': 320,
                              'height': 320  },
                   'app': { 'header_height': 30,
-                           'footer_height': 30 } }
+                           'footer_height': 30 },
+                  'image_lut': '../data/image_list.json',
+                  'style_config': '../data/style_config.json',
+                  'font_catalog': '../data/font_list.json' }
         with open( pathname, 'w' ) as fout:
         
             fout.write( json.dumps( data ) )

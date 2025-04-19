@@ -11,6 +11,7 @@ import sys
 from config import Configuration
 from drivers.manager import Driver_Manager
 from pages.Main_Window import Main_Window
+from utilities.lvgl_styles import Style_Manager
 
 def main():
 
@@ -19,9 +20,14 @@ def main():
     
     #  Determine our driver
     driver = Driver_Manager.load( config )
+
+    #  Create font-manager
+    style_manager = Style_Manager.create( config )
     
     #  Build the main window
-    window = Main_Window.create( config, driver )
+    window = Main_Window.create( config, 
+                                 driver,
+                                 style_manager )
 
     return window.run()
 

@@ -1,13 +1,16 @@
 {
     "config_file": {
-        "date_written": "2025/4/19 10:44:9"
+        "date_written": "2025/4/19 14:19:1"
     },
     "screen": {
         "height": 320,
         "width": 320
     },
     "app": {
-        "header_height": 30,
-        "footer_height": 30
-    }
+        "header_height": 25,
+        "footer_height": 20
+    },
+    "style_config": "../data/style_config.json",
+    "image_lut": "../data/image_list.json",
+    "font_catalog": "../data/font_list.json"
 }
