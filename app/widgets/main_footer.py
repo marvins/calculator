@@ -28,7 +28,7 @@ class Main_Footer:
         self.body.set_style_pad_gap(0, lv.PART.MAIN)
         
         self.body.set_size( self.config.get_section('screen','width')-10,
-                            self.config.get_section('app','footer_height') )
+                            self.config.get_section('main','footer_height') )
         
         #  Add each icon
         for cmd in self.commands:

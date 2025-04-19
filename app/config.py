@@ -108,13 +108,25 @@ class Configuration:
 
         #  Create the dictionary
         data = {  'config_file': { 'date_written': f'{dtinfo[0]}/{dtinfo[1]}/{dtinfo[2]} {dtinfo[3]}:{dtinfo[4]}:{dtinfo[5]}' },
-                  'screen': { 'width': 320,
-                             'height': 320  },
-                  'app': { 'header_height': 30,
-                           'footer_height': 30 },
+                  'screen': { 'width':  320,
+                              'height': 320  },
+                  'main': { 'header_height':     30,
+                            'footer_height':     30,
+                            'menu_icon_width':   90,
+                            'menu_icon_height': 100,
+                            'menu_icon_gap':     20 },
                   'image_lut': '../data/image_list.json',
                   'style_config': '../data/style_config.json',
-                  'font_catalog': '../data/font_list.json' }
+                  'font_catalog': '../data/font_list.json',
+                  'apps': { 'settings':   { 'title': 'Settings',
+                                            'icon': 'settings_app',
+                                            'path':  'apps/settings'   },
+                            'editor':     { 'title': 'Editor',
+                                            'icon':  'editor_app',
+                                            'path':  'apps/editor'     },
+                            'calculator': { 'title': 'Calculator',
+                                            'icon':  'calculator_app',
+                                            'path':  'apps/calculator' } } }
         with open( pathname, 'w' ) as fout:
         
             fout.write( json.dumps( data ) )

@@ -8,6 +8,7 @@
 import sys
 
 #  Project Libraries
+from apps.app_manager import App_Manager
 from config import Configuration
 from drivers.manager import Driver_Manager
 from pages.Main_Window import Main_Window
@@ -23,11 +24,17 @@ def main():
 
     #  Create font-manager
     style_manager = Style_Manager.create( config )
+
+    #  Create app-manager
+    app_manager = App_Manager.create( config,
+                                      style_manager,
+                                      driver )
     
     #  Build the main window
     window = Main_Window.create( config, 
                                  driver,
-                                 style_manager )
+                                 style_manager,
+                                 app_manager )
 
     return window.run()
 

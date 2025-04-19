@@ -27,7 +27,7 @@ class Main_Header:
                              lv.PART.MAIN )
         
         self.body.set_size( self.config.get_section('screen','width')-10,
-                            self.config.get_section('app','header_height') )
+                            self.config.get_section('main','header_height') )
         
         #  Add label
         self.title = lv.label( self.body )

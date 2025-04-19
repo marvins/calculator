@@ -1,16 +1,36 @@
 {
-    "config_file": {
-        "date_written": "2025/4/19 14:19:1"
+    "main": {
+        "menu_icon_gap": 20,
+        "footer_height": 30,
+        "header_height": 30,
+        "menu_icon_width": 90,
+        "menu_icon_height": 100
     },
+    "image_lut": "../data/image_list.json",
     "screen": {
         "height": 320,
         "width": 320
     },
-    "app": {
-        "header_height": 25,
-        "footer_height": 20
-    },
     "style_config": "../data/style_config.json",
-    "image_lut": "../data/image_list.json",
-    "font_catalog": "../data/font_list.json"
+    "config_file": {
+        "date_written": "2025/4/19 16:57:27"
+    },
+    "font_catalog": "../data/font_list.json",
+    "apps": {
+        "settings": {
+            "icon": "settings_app",
+            "path": "apps/settings",
+            "title": "Settings"
+        },
+        "calculator": {
+            "icon": "calculator_app",
+            "path": "apps/calculator",
+            "title": "Calculator"
+        },
+        "editor": {
+            "icon": "editor_app",
+            "path": "apps/editor",
+            "title": "Editor"
+        }
+    }
 }
