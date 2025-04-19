@@ -23,24 +23,22 @@ class Main_Menu:
         self.app_manager   = app_manager
 
     def initialize( self ):
+
+        #  Get a list of objects to create
+        icon_sets = self.app_manager.get_icon_data()
+        col_desc, row_desc = self.create_icon_descriptors( len( icon_sets ) )
         
         #  Create body
         self.body = lv.obj( self.parent )
-        self.body.set_style_pad_all( Main_Menu.PAD_ALL, lv.PART.MAIN)
-        self.body.set_style_pad_gap( Main_Menu.PAD_GAP, lv.PART.MAIN)
-        self.body.add_style( self.style_manager.style('header_normal'), lv.PART.MAIN )
 
         menu_size = self.menu_size()
         self.body.set_size( menu_size[0], menu_size[1] )
-        
-        #  Get a list of objects to create
-        icon_sets = self.app_manager.get_icon_data()
+        self.body.center()
+        self.body.set_grid_dsc_array(col_desc, row_desc)
 
-        #  Create the column and row descriptors
-        print( 'Computing Descriptors' )
-        col_desc, row_desc = self.create_icon_descriptors( len( icon_sets ) )
-        self.body.set_style_grid_column_dsc_array( col_desc, 0 )
-        self.body.set_style_grid_row_dsc_array( row_desc, 0 )
+        #self.body.set_style_pad_all( Main_Menu.PAD_ALL, lv.PART.MAIN)
+        #self.body.set_style_pad_gap( Main_Menu.PAD_GAP, lv.PART.MAIN)
+        #self.body.add_style( self.style_manager.style('header_normal'), lv.PART.MAIN )
         
         icon_width  = self.config.get_section( 'main', 'menu_icon_width' )
         icon_height = self.config.get_section( 'main', 'menu_icon_height' )
