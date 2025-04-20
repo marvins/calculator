@@ -18,19 +18,19 @@
     "font_catalog": "../data/font_list.json",
     "apps": {
         "settings": {
-            "icon": "settings_app",
-            "path": "apps/settings",
-            "title": "Settings"
+            "icon":   "settings_app",
+            "folder": "apps/settings",
+            "title":  "Settings"
         },
         "calculator": {
-            "icon": "calculator_app",
-            "path": "apps/calculator",
-            "title": "Calculator"
+            "icon":   "calculator_app",
+            "folder": "apps/calculator",
+            "title":  "Calculator"
         },
         "editor": {
-            "icon": "editor_app",
-            "path": "apps/editor",
-            "title": "Editor"
+            "icon":   "editor_app",
+            "folder": "apps/editor",
+            "title":  "Editor"
         }
     }
 }

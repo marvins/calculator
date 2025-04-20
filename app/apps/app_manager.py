@@ -3,6 +3,12 @@
 from config                import Configuration
 from utilities.lvgl_styles import Style_Manager
 
+#  Applications
+from apps.calculator.Application import App as Calculator_App
+from apps.editor.Application     import App as Editor_App
+from apps.settings.Application   import App as Settings_App
+
+
 class App_Manager:
 
     def __init__( self,
@@ -14,8 +20,20 @@ class App_Manager:
         self.style_manager = style_manager
         self.driver        = driver
 
+        self.app_loaders = { 'calculator': Calculator_App,
+                             'editor':     Editor_App,
+                             'settings':   Settings_App }
+
     def get_icon_data( self ):
         return self.app_configs
+    
+    def get_app_instance( self, tag ):
+
+        #  get the folder
+        app_cfg = self.app_configs[tag]
+
+        #  Create instance
+        return self.app_loaders[tag]
 
     @staticmethod
     def create( config,

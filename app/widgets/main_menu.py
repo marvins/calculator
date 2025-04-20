@@ -7,6 +7,7 @@ from config import Configuration
 from utilities.lvgl_images import compute_xy_scale
 from utilities.lvgl_styles import Style_Manager
 
+        
 class Main_Menu:
 
     PAD_ALL = 5
@@ -52,6 +53,24 @@ class Main_Menu:
         icon_width  = self.config.get_section( 'main', 'menu_icon_width' )
         icon_height = self.config.get_section( 'main', 'menu_icon_height' )
 
+        #  Callback
+        def button_callback( event, name ):
+            
+            print( f'Event Code: {event.code}' )
+            if event.code == lv.EVENT.CLICKED:
+                print(f'Button Clicked: {name}')
+
+                #  Launch widget
+                inst = self.app_manager.get_app_instance( name )
+                self.instance = inst.create( self.config,
+                                             self.style_manager,
+                                             self.app_manager,
+                                             self.body )
+
+
+
+            
+            
         #  Build out the icons
         counter = 0
         for ic in icon_sets:
@@ -116,6 +135,10 @@ class Main_Menu:
             btn_label.set_flex_grow( 0 )
             btn_label.add_style( self.style_manager.style( 'menu_text' ),
                                  lv.PART.MAIN )
+            
+            #  Setup Event Monitor
+            btn.add_event_cb( lambda event, button_name = ic: button_callback(event, button_name), lv.EVENT.ALL, None)
+    
     
     def create_icon_descriptors( self, num_icons ):
 

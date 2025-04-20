@@ -1,35 +1,27 @@
-#
-#    File:    Main_Window.py
-#    Author:  Marvin Smith
-#    Date:    4/19/2025
-#
-#    Main Window for demo app.
-#
 
-#  LVGL
-import lvgl as lv
 
 #  Project Libraries
-from apps.app_manager import App_Manager
 from config import Configuration
 from core   import Icon_Set
 from utilities.lvgl_styles import Style_Manager
 from widgets.main_header import Main_Header
 from widgets.main_footer import Main_Footer
-from widgets.main_menu   import Main_Menu
 
-class Main_Window:
+#  LVGL
+import lvgl as lv
 
-    def __init__( self, 
+
+class App:
+
+    def __init__( self,
                   config: Configuration,
-                  driver,
                   style_manager: Style_Manager,
                   app_manager: App_Manager ):
         
         self.config        = config
-        self.driver        = driver
         self.style_manager = style_manager
         self.app_manager   = app_manager
+
 
     def initialize( self ):
 
@@ -49,12 +41,8 @@ class Main_Window:
                                    self.body )
         self.header.initialize()
 
-        #  Build main menu
-        self.main_menu = Main_Menu( self.config,
-                                    self.style_manager,
-                                    self.app_manager,
-                                    self.body )
-        self.main_menu.initialize()
+        #  Build Window
+
 
         #  Create Footer
         self.footer = Main_Footer( self.config,
@@ -64,25 +52,19 @@ class Main_Window:
         self.footer.add_command( Icon_Set.ARROWS_ALL, 'Navigate' )
         self.footer.add_command( Icon_Set.ENTER, 'Select' )
         self.footer.initialize()
-        
-
-    @staticmethod
-    def create( config: Configuration,
-                driver,
-                style_manager: Style_Manager,
-                app_manager: App_Manager ):
-
-        #  Build new instance
-        window = Main_Window( config, 
-                              driver,
-                              style_manager,
-                              app_manager )
-
-        window.initialize()
-
-        return window
-    
-
-    def run( self ):
 
         return lv.screen_load( self.body )
+    
+    @staticmethod
+    def create( config:         Configuration,
+                style_manager:  Style_Manager,
+                app_manager:    App_Manager ):
+        
+        app = App( config,
+                   style_manager,
+                   app_manager )
+
+        app.initialize()
+
+        return app
+    

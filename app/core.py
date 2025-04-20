@@ -8,6 +8,7 @@ class Icon_Set:
     ARROW_DOWN  = 3
     ARROWS_ALL  = 4
     ENTER       = 5
+    ESCAPE      = 6
 
     @staticmethod
     def icon_tag( value ):
@@ -24,3 +25,5 @@ class Icon_Set:
             return 'arrows_all_16'
         if value == Icon_Set.ENTER:
             return 'enter_16'
+        if value == Icon_Set.ESCAPE:
+            return 'escape_16'
