@@ -1,6 +1,6 @@
 {
     "main": {
-        "menu_icon_gap": 20,
+        "menu_icon_gap": 10,
         "footer_height": 30,
         "header_height": 30,
         "menu_icon_width": 90,

@@ -1,8 +1,34 @@
 {
     "header_normal": {
-         "text_font": "montserrat_10"
+         "text_font": "montserrat_10",
+         "bg_color": "",
+         "outline_color": "",
+         "outline_opacity": "",
+         "outline_width": "",
+         "text_color": ""
     },
     "footer_text_normal": {
-        "text_font": "montserrat_10"
+        "text_font": "montserrat_10",
+        "bg_color": "",
+        "outline_color": "",
+        "outline_opacity": "",
+        "outline_width": "",
+         "text_color": ""
+    },
+    "menu_button": {
+        "text_font": "",
+        "bg_color": "white",
+        "outline_color": "black",
+        "outline_opacity": "100",
+        "outline_width": "2",
+         "text_color": "black"
+    },
+    "menu_text": {
+        "text_font":       "montserrat_10",
+        "bg_color":        "black",
+        "outline_color":   "black",
+        "outline_opacity": "",
+        "outline_width":   "",
+        "text_color":      "black"
     }
 }

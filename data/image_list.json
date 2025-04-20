@@ -7,5 +7,5 @@
     "enter_16":       "../data/images/enter_16.png",
     "calculator_app": "apps/calculator/assets/calculator_48_48.png",
     "editor_app":     "apps/editor/assets/editor_64_64.png",
-    "settings_app":   "apps/settings/assets/settings_96_96.png"
+    "settings_app":   "apps/settings/assets/settings_48_48.png"
 }

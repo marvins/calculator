@@ -4,6 +4,7 @@ import lvgl as lv
 
 from apps.app_manager import App_Manager
 from config import Configuration
+from utilities.lvgl_images import compute_xy_scale
 from utilities.lvgl_styles import Style_Manager
 
 class Main_Menu:
@@ -27,18 +28,26 @@ class Main_Menu:
         #  Get a list of objects to create
         icon_sets = self.app_manager.get_icon_data()
         col_desc, row_desc = self.create_icon_descriptors( len( icon_sets ) )
+        print( 'Descriptors Cols: ', col_desc, ', Rows: ', row_desc )
         
         #  Create body
         self.body = lv.obj( self.parent )
 
+        #  Set body size
         menu_size = self.menu_size()
         self.body.set_size( menu_size[0], menu_size[1] )
         self.body.center()
+
+        icon_gap    = self.config.get_section( 'main', 'menu_icon_gap' )
+
+        self.body.set_grid_align( lv.GRID_ALIGN.STRETCH,
+                                  lv.GRID_ALIGN.START )
         self.body.set_grid_dsc_array(col_desc, row_desc)
 
-        #self.body.set_style_pad_all( Main_Menu.PAD_ALL, lv.PART.MAIN)
-        #self.body.set_style_pad_gap( Main_Menu.PAD_GAP, lv.PART.MAIN)
-        #self.body.add_style( self.style_manager.style('header_normal'), lv.PART.MAIN )
+        self.body.set_style_pad_all( icon_gap, lv.PART.MAIN)
+
+        self.body.set_style_pad_gap( icon_gap, lv.PART.MAIN )
+        self.body.add_style( self.style_manager.style('header_normal'), lv.PART.MAIN )
         
         icon_width  = self.config.get_section( 'main', 'menu_icon_width' )
         icon_height = self.config.get_section( 'main', 'menu_icon_height' )
@@ -52,23 +61,61 @@ class Main_Menu:
 
             #  Create the button
             btn = lv.button( self.body )
+
+            btn.add_style( self.style_manager.style( 'menu_button' ),
+                           lv.PART.MAIN )
+
+            #  Position in the parent widget  
+            btn.set_grid_cell( lv.GRID_ALIGN.CENTER, icon_col, 1,
+                               lv.GRID_ALIGN.START, icon_row, 1 )
+
+            #  Setup layout for button itself
+            btn.set_layout( lv.LAYOUT.FLEX )
+
             btn.set_flex_flow( lv.FLEX_FLOW.COLUMN )
-            btn.set_flex_align(lv.FLEX_ALIGN.CENTER, lv.FLEX_ALIGN.CENTER, lv.FLEX_ALIGN.CENTER)
+            
+            btn.set_flex_align( lv.FLEX_ALIGN.SPACE_EVENLY, 
+                                lv.FLEX_ALIGN.CENTER,
+                                lv.FLEX_ALIGN.CENTER )
+            btn.set_style_pad_all( 10, lv.PART.MAIN )
+            btn.set_style_pad_gap( 7, lv.PART.MAIN )
+
+            btn.center()
+
             btn.set_size( icon_width, icon_height )
             
-            btn.set_grid_cell( lv.GRID_ALIGN.STRETCH, icon_col, 1,
-                               lv.GRID_ALIGN.STRETCH, icon_row, 1 )
-
             counter += 1
 
+            #  Button Image
             btn_image = lv.image( btn )
-            print( f'Icon Col: {icon_col}, Row: {icon_row}' )
-            print( 'Setting Path: ', icon_sets[ic]['icon_path'] )
-            btn_image.set_src( icon_sets[ic]['icon_path'] )
-        
+
+            png_data = None
+            with open( icon_sets[ic]['icon_path'], 'rb') as f:
+                png_data = f.read()
+
+            img_desc = lv.image_dsc_t({
+                'data_size': len(png_data),
+                'data': png_data 
+            })
+
+            btn_image.set_src( img_desc )
+            
+            img_scale = compute_xy_scale( btn_image,
+                                          (icon_width  - icon_gap*2,
+                                           icon_height - icon_gap*2 ) )
+            print( 'image scale: ', img_scale )
+            btn_image.set_scale_x( img_scale[0] )
+            btn_image.set_scale_y( img_scale[1] )
+            btn_image.center()
+            btn_image.set_flex_grow( 4 )
+
+            #  Button Label
             btn_label = lv.label( btn )
-            print( 'Setting Text: ', icon_sets[ic]['title'] )
             btn_label.set_text( icon_sets[ic]['title'] )
+            btn_label.center()
+            btn_label.set_flex_grow( 0 )
+            btn_label.add_style( self.style_manager.style( 'menu_text' ),
+                                 lv.PART.MAIN )
     
     def create_icon_descriptors( self, num_icons ):
 
@@ -85,11 +132,20 @@ class Main_Menu:
         window_height = self.config.get_section( 'screen', 'height' )
 
         #  Compute the amount of icons we can fit per row/col
-        icons_per_row = int( ( window_width - icon_gap ) / ( icon_width + icon_gap ) )
-        print( f'Icons Per Row: {icons_per_row}' )
+        icons_per_col = int( ( window_width - icon_gap ) / ( icon_width + icon_gap ) )
+        number_rows = num_icons / icons_per_col
 
-        col_desc = [  icon_width,  icon_width, lv.GRID_TEMPLATE_LAST ]
-        row_desc = [ icon_height, icon_height, lv.GRID_TEMPLATE_LAST ]
+        #  Align columns
+        col_desc = []
+        for x in range( icons_per_col ):
+            col_desc.append( icon_width )
+        col_desc.append( lv.GRID_TEMPLATE_LAST )
+
+        #  Align rows
+        row_desc = []
+        for x in range( number_rows ):
+            row_desc.append( icon_height )
+        row_desc.append( lv.GRID_TEMPLATE_LAST )
 
         return (col_desc, row_desc)
     
