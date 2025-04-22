@@ -1,11 +1,11 @@
 
 
 #  Project Libraries
-from config import Configuration
-from core   import Icon_Set
-from utilities.lvgl_styles import Style_Manager
-from widgets.main_header import Main_Header
-from widgets.main_footer import Main_Footer
+from config                 import Configuration
+from core                   import Icon_Set
+from utilities.lvgl_styles  import Style_Manager
+from widgets.main_header    import Main_Header
+from widgets.main_footer    import Main_Footer
 
 #  LVGL
 import lvgl as lv
@@ -31,14 +31,12 @@ def get_member_name(obj, value):
 class App:
 
     def __init__( self,
-                  config: Configuration,
+                  config:        Configuration,
                   style_manager: Style_Manager,
-                  app_manager: App_Manager,
                   parent ):
         
         self.config        = config
         self.style_manager = style_manager
-        self.app_manager   = app_manager
         self.parent        = parent
 
 
@@ -94,12 +92,10 @@ class App:
     @staticmethod
     def create( config:        Configuration,
                 style_manager: Style_Manager,
-                app_manager,
                 parent ):
         
         app = App( config,
                    style_manager,
-                   app_manager,
                    parent )
 
         app.initialize()

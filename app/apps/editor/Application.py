@@ -16,11 +16,11 @@ class App:
     def __init__( self,
                   config: Configuration,
                   style_manager: Style_Manager,
-                  app_manager: App_Manager ):
+                  parent ):
         
         self.config        = config
         self.style_manager = style_manager
-        self.app_manager   = app_manager
+        self.parent        = parent
 
 
     def initialize( self ):
@@ -58,11 +58,11 @@ class App:
     @staticmethod
     def create( config:         Configuration,
                 style_manager:  Style_Manager,
-                app_manager:    App_Manager ):
+                parent ):
         
         app = App( config,
                    style_manager,
-                   app_manager )
+                   parent )
 
         app.initialize()
 

@@ -17,7 +17,7 @@ class Main_Menu:
                   config: Configuration,
                   style_manager: Style_Manager,
                   app_manager: App_Manager,
-                  parent, ):
+                  parent ):
         
         self.config        = config
         self.style_manager = style_manager
@@ -32,7 +32,7 @@ class Main_Menu:
         print( 'Descriptors Cols: ', col_desc, ', Rows: ', row_desc )
         
         #  Create body
-        self.body = lv.obj( self.parent )
+        self.body = lv.obj( self.parent.body )
 
         #  Set body size
         menu_size = self.menu_size()
@@ -64,8 +64,7 @@ class Main_Menu:
                 inst = self.app_manager.get_app_instance( name )
                 self.instance = inst.create( self.config,
                                              self.style_manager,
-                                             self.app_manager,
-                                             self.body )
+                                             self )
 
 
 

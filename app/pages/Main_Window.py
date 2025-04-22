@@ -31,7 +31,17 @@ class Main_Window:
         self.style_manager = style_manager
         self.app_manager   = app_manager
 
+        self.active_pages = []
+
     def initialize( self ):
+
+        self.build_main_page()
+        self.active_pages.append( self.body )
+
+        self.build_app_pages()
+
+
+    def build_main_page( self ):
 
         #  Main Body Widget
         self.body = lv.obj()
@@ -53,7 +63,7 @@ class Main_Window:
         self.main_menu = Main_Menu( self.config,
                                     self.style_manager,
                                     self.app_manager,
-                                    self.body )
+                                    self )
         self.main_menu.initialize()
 
         #  Create Footer
@@ -64,7 +74,16 @@ class Main_Window:
         self.footer.add_command( Icon_Set.ARROWS_ALL, 'Navigate' )
         self.footer.add_command( Icon_Set.ENTER, 'Select' )
         self.footer.initialize()
-        
+
+    def build_app_pages( self ):
+
+        for app_id in self.app_manager.get_icon_data().keys():
+
+            new_inst = self.app_manager.get_app_instance( app_id )
+
+            self.active_pages.append( new_inst( self.config,
+                                                self.style_manager,
+                                                self ) )
 
     @staticmethod
     def create( config: Configuration,
