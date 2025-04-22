@@ -12,7 +12,7 @@ import lvgl as lv
 #  Project Libraries
 from apps.app_manager import App_Manager
 from config import Configuration
-from core   import Icon_Set
+from core   import Action, Icon_Set
 from utilities.lvgl_styles import Style_Manager
 from widgets.main_header import Main_Header
 from widgets.main_footer import Main_Footer
@@ -31,12 +31,12 @@ class Main_Window:
         self.style_manager = style_manager
         self.app_manager   = app_manager
 
-        self.active_pages = []
+        self.active_pages = {}
 
     def initialize( self ):
 
         self.build_main_page()
-        self.active_pages.append( self.body )
+        self.active_pages['main'] = self.body
 
         self.build_app_pages()
 
@@ -81,9 +81,30 @@ class Main_Window:
 
             new_inst = self.app_manager.get_app_instance( app_id )
 
-            self.active_pages.append( new_inst( self.config,
-                                                self.style_manager,
-                                                self ) )
+            print( f'Adding App Page: {app_id}' )
+            self.active_pages[app_id] = new_inst.create( self.config,
+                                                         self.style_manager,
+                                                         self )
+
+    def notify_action( self, action, context ):
+
+        print( f'Action Requested: {action}, Context: {context}' )
+
+        if action == Action.APP_LAUNCH:
+
+            self.set_active( False )
+            print( f'Launching app: {context}' )
+            self.active_pages[context].set_active( True )
+            lv.screen_load( self.active_pages[context].body )
+
+        elif action == Action.KEY_ESC:
+            print( f'Turning ourselves back on!' )
+            self.set_active( True )
+            lv.screen_load( self.body )
+
+    def set_active( self, value ):
+        self.is_active = value
+        self.main_menu.is_active = value
 
     @staticmethod
     def create( config: Configuration,

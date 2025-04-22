@@ -2,31 +2,15 @@
 
 #  Project Libraries
 from config                 import Configuration
-from core                   import Icon_Set
+from core                   import Action, Icon_Set
+from utilities.lvgl_events import get_event_name
 from utilities.lvgl_styles  import Style_Manager
 from widgets.main_header    import Main_Header
 from widgets.main_footer    import Main_Footer
 
 #  LVGL
 import lvgl as lv
-from lv_utils import event_loop
 
-
-member_name_cache = {}
-
-def get_member_name(obj, value):
-    try:
-        return member_name_cache[id(obj)][id(value)]
-    except KeyError:
-        pass
-
-    for member in dir(obj):
-        if getattr(obj, member) == value:
-            try:
-                member_name_cache[id(obj)][id(value)] = member
-            except KeyError:
-                member_name_cache[id(obj)] = {id(value): member}
-            return member
 
 class App:
 
@@ -34,11 +18,14 @@ class App:
                   config:        Configuration,
                   style_manager: Style_Manager,
                   parent ):
-        
+
+        self.name          = 'Calculator'
         self.config        = config
         self.style_manager = style_manager
         self.parent        = parent
 
+        #  Flag if we are active
+        self.is_active = False
 
     def initialize( self ):
 
@@ -73,25 +60,31 @@ class App:
         #  Setup Callbacks
         self.init_callbacks()
 
-        return lv.screen_load( self.body )
-    
-    def init_calbacks( self ):
+    def set_active( self, value ):
+        self.is_active = value
+
+    def init_callbacks( self ):
 
         #  Callback
-        def button_callback( event, name ):
+        def keyboard_callback( event, name ):
             
-            event_name = get_member_name(lv.EVENT, event.code)
-            print( f'Event: {event_name}, Button Name: {name}' )
+            #  Skip if we are not active
+            if self.is_active == False:
+                return
+            
+            print( f'[Calculator] Event: {event.code}, Button Name: {name}' )
             
             #  Look for escape key
+            print( f'Event: {event.code}, Type: {get_event_name(lv.EVENT, event.code)}, Context: {name}' )
             if event.code == lv.KEY.ESC:
-                lv.sceen_load( self.parent )
-
-                
+                self.parent.notify_action( Action.KEY_ESC )
+        
+        #  Setup Event Monitor
+        self.body.add_event_cb( lambda event, event_name = self.name: keyboard_callback(event, event_name), lv.EVENT.ALL, None)
 
     @staticmethod
-    def create( config:        Configuration,
-                style_manager: Style_Manager,
+    def create( config:         Configuration,
+                style_manager:  Style_Manager,
                 parent ):
         
         app = App( config,

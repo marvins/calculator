@@ -23,6 +23,14 @@
         "outline_width": "2",
          "text_color": "black"
     },
+    "menu_button_focused": {
+        "text_font": "",
+        "bg_color": "white",
+        "outline_color": "black",
+        "outline_opacity": "100",
+        "outline_width": "4",
+         "text_color": "black"
+    },
     "menu_text": {
         "text_font":       "montserrat_10",
         "bg_color":        "black",

@@ -1,4 +1,26 @@
 
+class Action:
+    APP_LAUNCH      = 0
+    KEY_ARROW_DOWN  = 1
+    KEY_ARROW_LEFT  = 2
+    KEY_ARROW_RIGHT = 3
+    KEY_ARROW_UP    = 4
+    KEY_ESC         = 5
+    KEY_OTHER       = 6
+
+
+    @staticmethod
+    def keyboard_to_action( value: int ):
+
+        mapping = { 17: Action.KEY_ARROW_UP,
+                    18: Action.KEY_ARROW_DOWN,
+                    19: Action.KEY_ARROW_RIGHT,
+                    20: Action.KEY_ARROW_LEFT,
+                    27: Action.KEY_ESC }
+        
+        if value in mapping.keys():
+            return mapping[value]
+        
 
 class Icon_Set:
 
@@ -27,3 +49,5 @@ class Icon_Set:
             return 'enter_16'
         if value == Icon_Set.ESCAPE:
             return 'escape_16'
+        
+

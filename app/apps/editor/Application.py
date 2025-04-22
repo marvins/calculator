@@ -53,7 +53,6 @@ class App:
         self.footer.add_command( Icon_Set.ENTER, 'Select' )
         self.footer.initialize()
 
-        return lv.screen_load( self.body )
     
     @staticmethod
     def create( config:         Configuration,

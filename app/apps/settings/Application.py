@@ -1,11 +1,11 @@
 
 
 #  Project Libraries
-from config import Configuration
-from core   import Icon_Set
-from utilities.lvgl_styles import Style_Manager
-from widgets.main_header import Main_Header
-from widgets.main_footer import Main_Footer
+from config                 import Configuration
+from core                   import Action, Icon_Set
+from utilities.lvgl_styles  import Style_Manager
+from widgets.main_header    import Main_Header
+from widgets.main_footer    import Main_Footer
 
 #  LVGL
 import lvgl as lv
@@ -14,10 +14,11 @@ import lvgl as lv
 class App:
 
     def __init__( self,
-                  config: Configuration,
+                  config:        Configuration,
                   style_manager: Style_Manager,
                   parent ):
-        
+
+        self.name          = 'Settings Panel'
         self.config        = config
         self.style_manager = style_manager
         self.parent        = parent
@@ -53,8 +54,22 @@ class App:
         self.footer.add_command( Icon_Set.ENTER, 'Select' )
         self.footer.initialize()
 
-        return lv.screen_load( self.body )
-    
+        #  Setup Callbacks
+        self.init_callbacks()
+
+    def init_callbacks( self ):
+
+        #  Callback
+        def keyboard_callback( event, name ):
+            
+            #  Look for escape key
+            print( f'Event: {event.code}, Context: {name}' )
+            if event.code == lv.KEY.ESC:
+                self.parent.notify_action( Action.KEY_ESC )
+        
+        #  Setup Event Monitor
+        self.body.add_event_cb( lambda event, event_name = self.name: keyboard_callback(event, event_name), lv.EVENT.ALL, None)
+
     @staticmethod
     def create( config:         Configuration,
                 style_manager:  Style_Manager,

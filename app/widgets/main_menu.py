@@ -2,8 +2,10 @@
 
 import lvgl as lv
 
-from apps.app_manager import App_Manager
-from config import Configuration
+from apps.app_manager      import App_Manager
+from config                import Configuration
+from core                  import Action
+from utilities.lvgl_events import get_event_name
 from utilities.lvgl_images import compute_xy_scale
 from utilities.lvgl_styles import Style_Manager
 
@@ -24,12 +26,26 @@ class Main_Menu:
         self.parent        = parent
         self.app_manager   = app_manager
 
+        #  Active widget being selected
+        self.active_button = 0
+
+        #  Flag if we are active
+        self.is_active = True
+
+        #  Information about widgets
+        self.icons_per_row = 0
+        self.num_icons     = 0
+
+        #  List of buttons
+        self.buttons = []
+
     def initialize( self ):
 
         #  Get a list of objects to create
         icon_sets = self.app_manager.get_icon_data()
         col_desc, row_desc = self.create_icon_descriptors( len( icon_sets ) )
         print( 'Descriptors Cols: ', col_desc, ', Rows: ', row_desc )
+        self.icons_per_row = len( col_desc ) - 1
         
         #  Create body
         self.body = lv.obj( self.parent.body )
@@ -54,33 +70,80 @@ class Main_Menu:
         icon_height = self.config.get_section( 'main', 'menu_icon_height' )
 
         #  Callback
-        def button_callback( event, name ):
+        def button_callback( event, name, button_id: int ):
             
-            print( f'Event Code: {event.code}' )
+            #  If we are not active, ignore us
+            if self.is_active == False:
+                return
+            
+            #  Otherwise, continue
+            print( f'Event: {get_event_name(lv.EVENT, event.code)}, Name: {name}, ID: {button_id}' )
+
+            if event.code == lv.EVENT.KEY:
+                action = Action.keyboard_to_action( event.get_key() )
+                
+                current_icon = self.active_button
+                change_focus_icon = False
+
+                #  Down will drop to next row
+                if action == Action.KEY_ARROW_DOWN:
+                    if (self.active_button + self.icons_per_row) < self.num_icons:
+                        self.active_button += self.icons_per_row
+                        change_focus_icon = True
+                
+                #  Right Increments
+                if action == Action.KEY_ARROW_RIGHT:
+                    if (self.active_button + 1) < self.num_icons:
+                        self.active_button += 1
+                    else:
+                        self.active_button = 0
+                    change_focus_icon = True
+                
+                #  Left Decrements
+                if action == Action.KEY_ARROW_LEFT:
+                    if (self.active_button - 1) >= 0:
+                        self.active_button -= 1
+                        change_focus_icon = True
+                    else:
+                        self.active_button = self.num_icons - 1
+                        change_focus_icon = True
+                
+                #  Update decrements by a row
+                if action == Action.KEY_ARROW_UP:
+                    if (self.active_button - self.icons_per_row) >= 0:
+                        self.active_button -= self.icons_per_row
+                        change_focus_icon = True
+                
+                #  Change box
+                if change_focus_icon:
+                    self.buttons[current_icon].add_style( self.style_manager.style( 'menu_button' ), lv.PART.MAIN )
+                    self.buttons[self.active_button].add_style( self.style_manager.style( 'menu_button_focused' ), lv.PART.MAIN )
+                
+
             if event.code == lv.EVENT.CLICKED:
-                print(f'Button Clicked: {name}')
+                print(f'Button Clicked: {name}, My button id: {button_id}, Active Widget: {self.active_button}')
 
-                #  Launch widget
-                inst = self.app_manager.get_app_instance( name )
-                self.instance = inst.create( self.config,
-                                             self.style_manager,
-                                             self )
-
-
+                if button_id == self.active_button:
+                    print( f'Button for {name} selected' )
+                    return self.parent.notify_action( Action.APP_LAUNCH,
+                                                      name )
 
             
             
         #  Build out the icons
-        counter = 0
         for ic in icon_sets:
         
-            icon_col = int( counter % ( len( col_desc ) - 1 ) )
-            icon_row = int( counter / ( len( col_desc ) - 1 ) )
+            icon_col = int( self.num_icons % ( len( col_desc ) - 1 ) )
+            icon_row = int( self.num_icons / ( len( col_desc ) - 1 ) )
 
             #  Create the button
             btn = lv.button( self.body )
 
-            btn.add_style( self.style_manager.style( 'menu_button' ),
+            #  Always set the first icon to focused
+            focus_tag = 'menu_button'
+            if self.num_icons == 0:
+                focus_tag = 'menu_button_focused'
+            btn.add_style( self.style_manager.style( focus_tag ),
                            lv.PART.MAIN )
 
             #  Position in the parent widget  
@@ -102,7 +165,7 @@ class Main_Menu:
 
             btn.set_size( icon_width, icon_height )
             
-            counter += 1
+            
 
             #  Button Image
             btn_image = lv.image( btn )
@@ -121,7 +184,6 @@ class Main_Menu:
             img_scale = compute_xy_scale( btn_image,
                                           (icon_width  - icon_gap*2,
                                            icon_height - icon_gap*2 ) )
-            print( 'image scale: ', img_scale )
             btn_image.set_scale_x( img_scale[0] )
             btn_image.set_scale_y( img_scale[1] )
             btn_image.center()
@@ -136,8 +198,10 @@ class Main_Menu:
                                  lv.PART.MAIN )
             
             #  Setup Event Monitor
-            btn.add_event_cb( lambda event, button_name = ic: button_callback(event, button_name), lv.EVENT.ALL, None)
+            btn.add_event_cb( lambda event, button_name = ic, button_id = self.num_icons: button_callback( event, button_name, button_id), lv.EVENT.ALL, None)
     
+            self.buttons.append( btn )
+            self.num_icons += 1
     
     def create_icon_descriptors( self, num_icons ):
 
