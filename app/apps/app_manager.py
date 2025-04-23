@@ -7,7 +7,7 @@ from utilities.lvgl_styles import Style_Manager
 from apps.calculator.Application import App as Calculator_App
 from apps.editor.Application     import App as Editor_App
 from apps.settings.Application   import App as Settings_App
-
+from apps.settings.Application   import App as Terminal_App
 
 class App_Manager:
 
@@ -22,7 +22,8 @@ class App_Manager:
 
         self.app_loaders = { 'calculator': Calculator_App,
                              'editor':     Editor_App,
-                             'settings':   Settings_App }
+                             'settings':   Settings_App ,
+                             'terminal':   Terminal_App }
 
     def get_icon_data( self ):
         return self.app_configs

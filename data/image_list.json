@@ -9,5 +9,6 @@
     "calculator_app": "apps/calculator/assets/calculator_48_48.png",
     "editor_app":     "apps/editor/assets/editor_64_64.png",
     "settings_app":   "apps/settings/assets/settings_48_48.png",
-    "pixel_earth":    "../data/images/pixel_earth.png"
+    "pixel_earth":    "../data/images/pixel_earth.png",
+    "terminal_app":   "../data/images/terminal_40.png"
 }

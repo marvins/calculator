@@ -31,6 +31,10 @@
             "icon":   "editor_app",
             "folder": "apps/editor",
             "title":  "Editor"
-        }
+        },
+        "terminal": { 
+            "icon": "terminal_app",
+            "folder": "apps/terminal",
+            "title": "Terminal" }
     }
 }
