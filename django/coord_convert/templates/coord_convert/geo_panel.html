@@ -1,0 +1,115 @@
+{% extends "coord_convert/master.html" %}
+
+{% block title %}
+  Coordinate Conversions
+{% endblock %}
+{% block extra_head %}
+<style>
+    .coordinate_panel {
+        display: block;
+        background-color: #f2f2f2;
+        float: left;
+        height: 80px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .coordinate_title {
+        font-size: x-large;
+        position:relative;
+        padding-left: 10px;
+        padding-right: 10px;
+        width: 300px;
+    }
+    .label_style {
+        padding: 10px;
+        width: auto;
+        display: inline-block;
+    }
+    .input_style {
+        padding: 10px;
+        width: auto;
+        display: inline-block;
+    }
+    
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="main_panel">
+
+    <!-- Input for Geographic Coordinates -->
+    <div class="coordinate_panel">
+        <div class="coordinate_title">Geographic Coordinates</div>
+            <form>
+                <label for="latitude_text" class="label_style">Latitude:</label>
+                <input type="text" id="latitude_text" name="latitude_input">
+                
+                <label for="longitude_text" class="label_style">Longitude:</label>
+                <input type="text" id="longitude_text" name="longitude_input">
+               
+                <label for="elevation_text" class="label_style">Elevation:</label>
+                <input type="text" id="elevation_text" name="elevation_input"> 
+
+                <input type="radio" id="geo_format" name="geo_format" value="degrees" checked>
+                <label for="geo_format">Degrees</label>
+                <input type="radio" id="geo_format" name="geo_format" value="radians">
+                <label for="lla_radians">Radians</label>
+            </form>
+        </div>
+    </div>
+
+    <!-- Input for Earth-Centered, Earth-Fixed Coordinates -->
+    <div class="coordinate_panel">
+        <div class="coordinate_title">ECEF Coordinates</div>
+            <form>
+                <label for="ecef_x_text" class="label_style">X :</label>
+                <input type="text" id="ecef_x_text" name="ecef_x_input">
+                
+                <label for="ecef_y_text" class="label_style">Y :</label>
+                <input type="text" id="ecef_y_text" name="ecef_y_input">
+
+                <label for="ecef_z_text" class="label_style">Z :</label>
+                <input type="text" id="ecef_z_text" name="ecef_z_input">
+            </form>
+        </div>
+    </div>
+
+    <!-- Input for UTM Coordinates -->
+    <div class="coordinate_panel">
+        <div class="coordinate_title">UTM Coordinates</div>
+            <form>
+                <!-- Grid Zone -->
+                <label for="gz_zone_input" class="label_style">Grid Zone:</label>
+                <input type="number" id="gz_zone_input" name="gz_zone_input" min="1" max="60">
+                
+                <!-- Hemisphere -->
+                <input type="radio" id="utm_hemi" name="utm_hemi" value="n" checked>
+                <label for="utm_hemi">N</label>
+                <input type="radio" id="utm_hemi" name="utm_hemi" value="s">
+                <label for="utm_hemi">S</label>
+
+                <!-- Easting -->
+                <label for="easting_text" class="label_style">Easting (m):</label>
+                <input type="text" id="easting_text" name="easting_input">
+
+                <!-- Northing -->
+                <label for="northing_text" class="label_style">Northing (m):</label>
+                <input type="text" id="northing_text" name="northing_input">
+
+                <!-- Elevation -->
+                <label for="elevation_text" class="label_style">Elevation (m):</label>
+                <input type="text" id="elevation_text" name="elevation_input">
+
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+
+</script>
+
+{% endblock %}

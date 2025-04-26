@@ -21,7 +21,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', include('coord_convert.urls')),
+    path('', include('coord_convert.urls_main')),
+    path('coord_convert/', include('coord_convert.urls') ),
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
 ]
