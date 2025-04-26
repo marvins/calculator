@@ -1,9 +1,12 @@
 
+#  Micropython Libraries
+import logging
 
 #  Project Libraries
 from config                 import Configuration
 from core                   import Action, Icon_Set
-from utilities.lvgl_events import get_event_name
+from apps.app_base          import App_Base
+from utilities.lvgl_events  import get_event_name
 from utilities.lvgl_styles  import Style_Manager
 from widgets.main_header    import Main_Header
 from widgets.main_footer    import Main_Footer
@@ -12,7 +15,7 @@ from widgets.main_footer    import Main_Footer
 import lvgl as lv
 
 
-class App:
+class App( App_Base ):
 
     def __init__( self,
                   config:        Configuration,
@@ -20,12 +23,15 @@ class App:
                   parent ):
 
         self.name          = 'Calculator'
-        self.config        = config
-        self.style_manager = style_manager
-        self.parent        = parent
 
-        #  Flag if we are active
-        self.is_active = False
+        self.group = lv.group_create()
+
+        self.logger = logging.getLogger( 'Calculator_App' )
+
+        super().__init__( config,
+                          style_manager,
+                          parent )
+
 
     def initialize( self ):
 
@@ -60,9 +66,6 @@ class App:
         #  Setup Callbacks
         self.init_callbacks()
 
-    def set_active( self, value ):
-        self.is_active = value
-
     def init_callbacks( self ):
 
         #  Callback
@@ -72,7 +75,7 @@ class App:
             if self.is_active == False:
                 return
             
-            print( f'[Calculator] Event: {event.code}, Button Name: {name}' )
+            self.logger.debug( f'[Calculator] Event: {event.code}, Button Name: {name}' )
             
             #  Look for escape key
             print( f'Event: {event.code}, Type: {get_event_name(lv.EVENT, event.code)}, Context: {name}' )
@@ -81,6 +84,8 @@ class App:
         
         #  Setup Event Monitor
         self.body.add_event_cb( lambda event, event_name = self.name: keyboard_callback(event, event_name), lv.EVENT.ALL, None)
+
+        self.parent.driver.keyboard.set_group( self.group )
 
     @staticmethod
     def create( config:         Configuration,

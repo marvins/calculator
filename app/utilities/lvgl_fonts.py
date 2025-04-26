@@ -1,15 +1,19 @@
 
 
-
+#  Micropython Standard Libraries
 import fs_driver
 import json
+import logging
 
+#  LVGL User Interface
 import lvgl as lv
 
 
 class Font_Manager:
 
     def __init__( self, font_list ):
+
+        self.logger = logging.getLogger( 'Font_Manager' )
 
         #  Only load fonts on request
         self.font_list = font_list
@@ -30,7 +34,7 @@ class Font_Manager:
         if tag in self.font_list.keys():
             fs_drv = lv.fs_drv_t()
             fs_driver.fs_register(fs_drv, 'S')
-            print( f'Loading font: {self.font_list[tag]}' )
+            
             self.loaded_fonts[tag] = lv.binfont_create("S:" + self.font_list[tag])
             return self.loaded_fonts[tag]
 

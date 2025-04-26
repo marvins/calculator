@@ -5,6 +5,7 @@
 #
 
 #  Micropython Libraries
+import logging
 import sys
 
 #  Project Libraries
@@ -18,6 +19,8 @@ def main():
 
     #  Parse the configuration
     config = Configuration.parse( sys.argv )
+
+    logging.basicConfig( level = logging.INFO )
     
     #  Determine our driver
     driver = Driver_Manager.load( config )

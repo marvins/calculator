@@ -6,6 +6,9 @@
 #    Main Window for demo app.
 #
 
+#  Python Libraries
+import logging
+
 #  LVGL
 import lvgl as lv
 
@@ -32,6 +35,8 @@ class Main_Window:
         self.app_manager   = app_manager
 
         self.active_pages = {}
+
+        self.logger = logging.getLogger( 'Main_Window' )
 
     def initialize( self ):
 
@@ -81,25 +86,29 @@ class Main_Window:
 
             new_inst = self.app_manager.get_app_instance( app_id )
 
-            print( f'Adding App Page: {app_id}' )
+            self.logger.info( f'Adding App Page: {app_id}' )
             self.active_pages[app_id] = new_inst.create( self.config,
                                                          self.style_manager,
                                                          self )
 
     def notify_action( self, action, context ):
-
-        print( f'Action Requested: {action}, Context: {context}' )
+        '''
+        Process the action, likely changing the screen
+        '''
+        self.logger.info( f'Action Requested: {action}, Context: {context}' )
 
         if action == Action.APP_LAUNCH:
 
             self.set_active( False )
-            print( f'Launching app: {context}' )
+            self.logger.info( f'Launching app: {context}' )
             self.active_pages[context].set_active( True )
             lv.screen_load( self.active_pages[context].body )
 
         elif action == Action.KEY_ESC:
-            print( f'Turning ourselves back on!' )
+            self.logger.info( f'Turning ourselves back on!' )
             self.set_active( True )
+
+            self.driver.reset_group()
             lv.screen_load( self.body )
 
     def set_active( self, value ):

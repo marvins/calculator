@@ -33,3 +33,7 @@ class Driver:
     def update_keyboard(self, body):
         pass
 
+
+    def reset_group(self):
+        self.group.set_default()
+        self.keyboard.set_group( self.group )

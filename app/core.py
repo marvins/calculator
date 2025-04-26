@@ -5,14 +5,16 @@ class Action:
     KEY_ARROW_LEFT  = 2
     KEY_ARROW_RIGHT = 3
     KEY_ARROW_UP    = 4
-    KEY_ESC         = 5
-    KEY_OTHER       = 6
+    KEY_ENTER       = 5
+    KEY_ESC         = 6
+    KEY_OTHER       = 7
 
 
     @staticmethod
     def keyboard_to_action( value: int ):
 
-        mapping = { 17: Action.KEY_ARROW_UP,
+        mapping = { 10: Action.KEY_ENTER,
+                    17: Action.KEY_ARROW_UP,
                     18: Action.KEY_ARROW_DOWN,
                     19: Action.KEY_ARROW_RIGHT,
                     20: Action.KEY_ARROW_LEFT,
@@ -20,6 +22,8 @@ class Action:
         
         if value in mapping.keys():
             return mapping[value]
+        
+        print( f'UNKNOWN KEY: {value}' )
         
 
 class Icon_Set:

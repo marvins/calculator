@@ -1,8 +1,12 @@
 
+#  Micropython Libraries
+import logging
 
 #  Project Libraries
 from config                 import Configuration
 from core                   import Action, Icon_Set
+from apps.app_base          import App_Base
+from utilities.lvgl_events  import get_event_name
 from utilities.lvgl_styles  import Style_Manager
 from widgets.main_header    import Main_Header
 from widgets.main_footer    import Main_Footer
@@ -19,9 +23,12 @@ class App:
                   parent ):
 
         self.name          = 'Terminal'
-        self.config        = config
-        self.style_manager = style_manager
-        self.parent        = parent
+
+        self.logger = logging.getLogger( 'Terminal_App' )
+
+        super().__init__( config,
+                          style_manager,
+                          parent )
 
 
     def initialize( self ):
@@ -52,6 +59,7 @@ class App:
         
         self.footer.add_command( Icon_Set.ARROWS_ALL, 'Navigate' )
         self.footer.add_command( Icon_Set.ENTER, 'Execute' )
+        self.footer.add_command( Icon_Set.ESCAPE, 'Back' )
         self.footer.initialize()
 
         #  Setup Callbacks
@@ -62,8 +70,14 @@ class App:
         #  Callback
         def keyboard_callback( event, name ):
             
+            #  Skip if we are not active
+            if self.is_active == False:
+                return
+            
+            self.logger.debug( f'[Terminal] Event: {event.code}, Button Name: {name}' )
+            
             #  Look for escape key
-            print( f'Event: {event.code}, Context: {name}' )
+            print( f'Event: {event.code}, Type: {get_event_name(lv.EVENT, event.code)}, Context: {name}' )
             if event.code == lv.KEY.ESC:
                 self.parent.notify_action( Action.KEY_ESC )
         

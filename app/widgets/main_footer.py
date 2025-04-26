@@ -35,7 +35,6 @@ class Main_Footer:
 
             #  Get the icon
             icon_path = self.config.get_image_path( Icon_Set.icon_tag( cmd['icon'] ) )
-            print( f'Loading icon: ', icon_path )
 
             png_data = None
             with open( icon_path, 'rb') as f:

@@ -13,3 +13,10 @@ Copy the app toolscript to ~/.micropython/lib/
 rsync -avP tools/*.mpy ~/.micropython/lib/
 ```
 
+## Packages
+
+```python
+import mip
+mip.install('logging')
+```
+
