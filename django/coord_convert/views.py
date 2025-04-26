@@ -12,3 +12,8 @@ def main_window( request ):
     template = loader.get_template('coord_convert/geo_panel.html')
 
     return HttpResponse( template.render() )
+
+
+def convert_coordinates( request ):
+
+    print( request )

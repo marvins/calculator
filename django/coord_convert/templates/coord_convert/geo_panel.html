@@ -30,6 +30,9 @@
         width: auto;
         display: inline-block;
     }
+    .back_button {
+        float: left;
+    }
     
 </style>
 {% endblock %}
@@ -102,14 +105,21 @@
                 <input type="text" id="elevation_text" name="elevation_input">
 
             </form>
-        </div>
-    </div>
-
-
+        </div> <!-- End of coordinate_title div -->
+    </div> <!-- End of coordinate_panel div -->
 </div>
 
-<script>
+<div class="back_button" style="position:fixed; bottom:0;" >
+    <form action="/coord_convert/process" method="get">
+    <button class="submit-button" type="submit" style="height: 50px;width: 100px;">Submit</button>
 
+    <form action="/">
+    <button class="menu-button" type="submit" style="height: 50px;width: 100px;">Back</button>
+</div>
+
+
+<script>
+    
 </script>
 
 {% endblock %}

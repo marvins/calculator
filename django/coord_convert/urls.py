@@ -5,7 +5,8 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path("", views.main_window, name="main_window")
+    path("", views.main_window, name="main_window"),
+    path("process", views.convert_coordinates, name="convert_coordinates")
 ]
 
 if settings.DEBUG:
