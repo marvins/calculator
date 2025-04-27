@@ -85,7 +85,6 @@ class App( App_Base ):
         #  Setup Event Monitor
         self.body.add_event_cb( lambda event, event_name = self.name: keyboard_callback(event, event_name), lv.EVENT.ALL, None)
 
-        self.parent.driver.keyboard.set_group( self.group )
 
     @staticmethod
     def create( config:         Configuration,

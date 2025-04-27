@@ -50,7 +50,7 @@ class App( App_Base ):
         self.header.initialize()
 
         #  Build Window
-
+        self.text = lv.textarea( self.body )
 
         #  Create Footer
         self.footer = Main_Footer( self.config,
