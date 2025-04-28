@@ -51,6 +51,7 @@ class App( App_Base ):
 
         #  Build Window
         self.text = lv.textarea( self.body )
+        self.text.add_flag( lv.obj.FLAG.EVENT_BUBBLE )
 
         #  Create Footer
         self.footer = Main_Footer( self.config,
@@ -73,15 +74,25 @@ class App( App_Base ):
             if self.is_active == False:
                 return
             
-            self.logger.debug( f'[Editor] Event: {event.code}, Button Name: {name}' )
-            
             #  Look for escape key
-            print( f'Event: {event.code}, Type: {get_event_name(lv.EVENT, event.code)}, Context: {name}' )
+            self.logger.debug( f'Event: {event.code}, Type: {get_event_name(lv.EVENT, event.code)}, Context: {name}, Key: {event.get_key()}' )
             if event.code == lv.KEY.ESC:
+                self.logger.info( f'Escape Detected: Moving back to parent page.' )
                 self.parent.notify_action( Action.KEY_ESC )
-        
+
+            if event.code == lv.EVENT.KEY:
+                action = Action.keyboard_to_action( event.get_key() )
+                if action == Action.KEY_ESC:
+                    self.logger.info( f'Escape Detected: Moving back to parent page.' )
+                    self.parent.notify_action( Action.KEY_ESC, 'main' )
+
+
         #  Setup Event Monitor
-        self.body.add_event_cb( lambda event, event_name = self.name: keyboard_callback(event, event_name), lv.EVENT.ALL, None)
+        self.body.add_event_cb( lambda event, 
+                                       event_name = self.name: keyboard_callback(event, 
+                                                                                 event_name),
+                                       lv.EVENT.ALL,
+                                       None )
 
     @staticmethod
     def create( config:         Configuration,

@@ -8,8 +8,8 @@
     },
     "image_lut": "../data/image_list.json",
     "screen": {
-        "height": 320,
-        "width": 320
+        "height": 500,
+        "width": 400
     },
     "style_config": "../data/style_config.json",
     "config_file": {
@@ -35,7 +35,7 @@
         "terminal": { 
             "icon": "terminal_app",
             "folder": "apps/terminal",
-            "title": "Terminal"
+            "title": "Terminal" 
         },
         "geocoord": {
             "icon": "pixel_earth",

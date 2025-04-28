@@ -22,11 +22,11 @@ class App( App_Base ):
                   style_manager: Style_Manager,
                   parent ):
 
-        self.name          = 'Calculator'
+        self.name          = 'Coord Convert'
 
         self.group = lv.group_create()
 
-        self.logger = logging.getLogger( 'Calculator_App' )
+        self.logger = logging.getLogger( 'Coordinate_Converter' )
 
         super().__init__( config,
                           style_manager,
@@ -52,7 +52,8 @@ class App( App_Base ):
         self.header.initialize()
 
         #  Build Window
-
+        self.text = lv.textarea( self.body )
+        self.text.add_flag( lv.obj.FLAG.EVENT_BUBBLE )
 
         #  Create Footer
         self.footer = Main_Footer( self.config,

@@ -101,15 +101,18 @@ class Main_Window:
 
             self.set_active( False )
             self.logger.info( f'Launching app: {context}' )
+            self.driver.reset_group()
             self.active_pages[context].set_active( True )
             lv.screen_load( self.active_pages[context].body )
 
         elif action == Action.KEY_ESC:
-            self.logger.info( f'Turning ourselves back on!' )
-            self.set_active( True )
 
-            self.driver.reset_group()
-            lv.screen_load( self.body )
+            if context == 'main':
+                self.logger.info( f'Turning ourselves back on!' )
+                self.set_active( True )
+
+                self.driver.reset_group()
+                lv.screen_load( self.body )
 
     def set_active( self, value ):
         self.is_active = value

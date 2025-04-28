@@ -139,6 +139,7 @@ class Main_Menu:
 
             png_data = None
             with open( icon_sets[ic]['icon_path'], 'rb') as f:
+                self.logger.info( f'Opening Icon for {ic}: {icon_sets[ic]['icon_path']}')
                 png_data = f.read()
 
             img_desc = lv.image_dsc_t({
