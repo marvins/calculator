@@ -52,7 +52,7 @@ class Main_Footer:
             #  Add label
             lbl = lv.label(self.body)
             lbl.set_text( cmd['title'] )
-            lbl.add_style( self.style_manager.style('footer_text_normal'),
+            lbl.add_style( self.style_manager.style('app_text_normal'),
                            lv.PART.MAIN )
         
     #  Add icons

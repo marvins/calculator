@@ -42,8 +42,8 @@ class App( App_Base ):
         self.body.center()
         self.body.set_layout( lv.LAYOUT.FLEX )
         self.body.set_flex_flow( lv.FLEX_FLOW.COLUMN )
-        self.body.set_style_pad_gap(0, lv.PART.MAIN)
-        self.body.set_style_pad_all(0, lv.PART.MAIN)
+        self.body.set_style_pad_gap( 0, lv.PART.MAIN )
+        self.body.set_style_pad_all( 0, lv.PART.MAIN )
 
         #  Create Header
         self.header = Main_Header( self.config,
@@ -52,8 +52,15 @@ class App( App_Base ):
         self.header.initialize()
 
         #  Build Window
-        self.text = lv.textarea( self.body )
-        self.text.add_flag( lv.obj.FLAG.EVENT_BUBBLE )
+        self.main_panel = lv.obj( self.body )
+        self.main_panel.set_layout( lv.LAYOUT.FLEX )
+        self.main_panel.set_flex_flow( lv.FLEX_FLOW.COLUMN )
+        self.main_panel.set_size( lv.SIZE_CONTENT,
+                                  lv.SIZE_CONTENT )
+
+        #  Build geographic coordinate window
+        self.build_geo_pane()
+        
 
         #  Create Footer
         self.footer = Main_Footer( self.config,
@@ -66,6 +73,83 @@ class App( App_Base ):
 
         #  Setup Callbacks
         self.init_callbacks()
+
+    def build_geo_pane(self):
+
+        #  Main widget will be a big grid layout
+        col_desc = [ 100, 100, 100, lv.GRID_TEMPLATE_LAST ]
+        row_desc = [ 40, 25, 25, 25, lv.GRID_TEMPLATE_LAST ]
+        geo_pane = lv.obj( self.main_panel )
+        geo_pane.set_grid_dsc_array( col_desc, row_desc )
+        geo_pane.set_size( lv.SIZE_CONTENT,
+                           lv.SIZE_CONTENT )
+
+        #  Primary Header Label
+        geo_label = lv.label( geo_pane )
+        geo_label.set_text( 'Geographic Coordinate:' )
+        geo_label.set_grid_cell( lv.GRID_ALIGN.START, 0, 4,
+                                 lv.GRID_ALIGN.CENTER, 0, 1 )
+        geo_label.set_size( lv.SIZE_CONTENT,
+                           lv.SIZE_CONTENT )
+        geo_label.add_style( self.style_manager.style('app_text_header'),
+                             lv.PART.MAIN )
+        geo_label.center()
+
+
+        #  2nd Row (Latitude, Longitude, Format Labels)
+        lat_label = lv.label( geo_pane )
+        lat_label.set_text( 'Latitude: ' )
+        lat_label.set_grid_cell( lv.GRID_ALIGN.START, 0, 1,
+                                 lv.GRID_ALIGN.CENTER, 1, 1 )
+        lat_label.set_size( 80, 25 )
+        lat_label.add_style( self.style_manager.style('app_text_normal'),
+                             lv.PART.MAIN )
+
+
+        lon_label = lv.label( geo_pane )
+        lon_label.set_text( 'Longitude: ' )
+        lon_label.set_grid_cell( lv.GRID_ALIGN.START, 1, 1,
+                                 lv.GRID_ALIGN.CENTER, 1, 1 )
+        lon_label.set_size( 80, 25 )
+        lon_label.add_style( self.style_manager.style('app_text_normal'),
+                             lv.PART.MAIN )
+        
+        fmt_label = lv.label( geo_pane )
+        fmt_label.set_text( 'Format: ' )
+        fmt_label.set_grid_cell( lv.GRID_ALIGN.START, 2, 1,
+                                 lv.GRID_ALIGN.CENTER, 1, 1 )
+        fmt_label.set_size( 80, 25 )
+        fmt_label.add_style( self.style_manager.style('app_text_normal'),
+                             lv.PART.MAIN )
+        
+        #  3rd Row (Latitude, Longitude, Format Entries)
+        lat_text = lv.textarea( geo_pane )
+        lat_text.set_one_line( True )
+        lat_text.set_grid_cell( lv.GRID_ALIGN.START, 0, 1,
+                                lv.GRID_ALIGN.CENTER, 2, 2 )
+        lat_text.set_size( 100, 25 )
+
+        
+        lon_text = lv.textarea( geo_pane )
+        lon_text.set_one_line( True )
+        lon_text.set_grid_cell( lv.GRID_ALIGN.START, 1, 1,
+                                lv.GRID_ALIGN.CENTER, 2, 2 )
+        lon_text.set_size( 100, 25 )
+
+
+        fmt_chk_d = lv.checkbox( geo_pane )
+        fmt_chk_d.set_text( 'Degrees' )
+        fmt_chk_d.set_grid_cell( lv.GRID_ALIGN.START, 2, 1,
+                                 lv.GRID_ALIGN.CENTER, 2, 1 )
+        fmt_chk_d.add_style( self.style_manager.style('app_text_normal'),
+                             lv.PART.MAIN )
+
+        fmt_chk_r = lv.checkbox( geo_pane )
+        fmt_chk_r.set_text( 'Radians' )
+        fmt_chk_r.set_grid_cell( lv.GRID_ALIGN.START, 2, 1,
+                                 lv.GRID_ALIGN.CENTER, 3, 1 )
+        fmt_chk_r.add_style( self.style_manager.style('app_text_normal'),
+                             lv.PART.MAIN )
 
     def init_callbacks( self ):
 

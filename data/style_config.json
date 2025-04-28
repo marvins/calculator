@@ -1,22 +1,11 @@
 {
     "header_normal": {
-         "text_font": "montserrat_10",
-         "bg_color": "",
-         "outline_color": "",
-         "outline_opacity": "",
-         "outline_width": "",
-         "text_color": ""
+         "text_font": "montserrat_10"
     },
     "footer_text_normal": {
-        "text_font": "montserrat_10",
-        "bg_color": "",
-        "outline_color": "",
-        "outline_opacity": "",
-        "outline_width": "",
-         "text_color": ""
+        "text_font": "montserrat_10"
     },
     "menu_button": {
-        "text_font": "",
         "bg_color": "white",
         "outline_color": "black",
         "outline_opacity": "100",
@@ -24,7 +13,6 @@
          "text_color": "black"
     },
     "menu_button_focused": {
-        "text_font": "",
         "bg_color": "white",
         "outline_color": "black",
         "outline_opacity": "100",
@@ -35,8 +23,21 @@
         "text_font":       "montserrat_10",
         "bg_color":        "black",
         "outline_color":   "black",
-        "outline_opacity": "",
-        "outline_width":   "",
         "text_color":      "black"
+    },
+    "app_text_header": {
+        "text_font":       "montserrat_12",
+        "bg_color":        "black",
+        "outline_color":   "black",
+        "text_color":      "black"
+    },
+    "app_text_normal": {
+        "text_font":       "montserrat_10",
+        "bg_color":        "black",
+        "outline_color":   "red",
+        "text_color":      "black",
+        "outline_opacity": "100",
+        "outline_width": "4",
+        "align":           "center"
     }
 }

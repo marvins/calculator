@@ -43,37 +43,41 @@ class Style_Manager:
         new_style = lv.style_t()
 
         #  Text Font
-        if len(cfg['text_font']) > 0:
+        if 'text_font' in cfg.keys():
             new_style.set_text_font( self.font_manager.font( cfg['text_font'] ) )
         
         #  Background Color
-        if len(cfg['bg_color']) > 0:
+        if 'bg_color' in cfg.keys():
             bg_color = cfg['bg_color']
             if bg_color in list(Style_Manager.COLOR_MAP.keys()):
                 new_style.set_bg_color( Style_Manager.COLOR_MAP[bg_color] )
 
         #  Set the background gradient color
-        if len(cfg['outline_color']) > 0:
+        if 'outline_color' in cfg.keys():
             outline_color = cfg['outline_color']
             if outline_color in list(Style_Manager.COLOR_MAP.keys()):
                 new_style.set_outline_color( Style_Manager.COLOR_MAP[outline_color] )
         
         #  Set the outline opacity
-        if len(cfg['outline_opacity']) > 0:
+        if 'outline_opacity' in cfg.keys():
             outline_opa = int(cfg['outline_opacity'])
             new_style.set_outline_opa( outline_opa )
 
         #  Set the outline width
-        if len(cfg['outline_width']) > 0:
+        if 'outline_width' in cfg.keys():
             outline_width = int(cfg['outline_width'])
             new_style.set_outline_width( outline_width )
 
         #  Set the text color
-        if len(cfg['text_color']) > 0:
+        if 'text_color' in cfg.keys():
             text_color = cfg['text_color']
             if text_color in list(Style_Manager.COLOR_MAP.keys()):
                 new_style.set_text_color( Style_Manager.COLOR_MAP[text_color] )
-            
+        
+        #  Set the style
+        if 'align' in cfg.keys():
+            if cfg['align'] == 'center':
+                new_style.set_align( lv.ALIGN.CENTER )
 
         self.loaded_styles[tag] = new_style
 

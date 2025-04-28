@@ -38,7 +38,7 @@ class Font_Manager:
             self.loaded_fonts[tag] = lv.binfont_create("S:" + self.font_list[tag])
             return self.loaded_fonts[tag]
 
-        raise Exception( f'No font registered to tag: {tag}' )
+        raise Exception( f'No font registered to tag: [{tag}]' )
     
     @staticmethod
     def create( font_path ):
