@@ -40,8 +40,8 @@ class App( App_Base ):
         self.body.center()
         self.body.set_layout( lv.LAYOUT.FLEX )
         self.body.set_flex_flow( lv.FLEX_FLOW.COLUMN )
-        self.body.set_style_pad_gap(0, lv.PART.MAIN)
-        self.body.set_style_pad_all(0, lv.PART.MAIN)
+        self.body.set_style_pad_gap( 0, lv.PART.MAIN )
+        self.body.set_style_pad_all( 0, lv.PART.MAIN )
 
         #  Create Header
         self.header = Main_Header( self.config,
@@ -86,10 +86,9 @@ class App( App_Base ):
                     self.logger.info( f'Escape Detected: Moving back to parent page.' )
                     self.parent.notify_action( Action.KEY_ESC, 'main' )
 
-
         #  Setup Event Monitor
-        self.body.add_event_cb( lambda event, 
-                                       event_name = self.name: keyboard_callback(event, 
+        self.body.add_event_cb( lambda event,
+                                       event_name = self.name: keyboard_callback(event,
                                                                                  event_name),
                                        lv.EVENT.ALL,
                                        None )

@@ -8,7 +8,7 @@ from apps.calculator.Application import App as Calculator_App
 from apps.editor.Application     import App as Editor_App
 from apps.geo_coord.Application  import App as GeoCoord_App
 from apps.settings.Application   import App as Settings_App
-from apps.settings.Application   import App as Terminal_App
+from apps.terminal.Application   import App as Terminal_App
 
 class App_Manager:
 

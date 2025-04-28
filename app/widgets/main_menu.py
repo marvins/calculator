@@ -81,7 +81,7 @@ class Main_Menu:
                 return
             
             #  Otherwise, continue
-            self.logger.info( f'Button Event: {get_event_name(lv.EVENT, event.code)}, Name: {name}, ID: {button_id}, Key: {event.get_key()}' )
+            self.logger.debug( f'Button Event: {get_event_name(lv.EVENT, event.code)}, Name: {name}, ID: {button_id}, Key: {event.get_key()}' )
             if event.code == lv.EVENT.CLICKED:
                 self.logger.info( f'Button for {name} selected' )
                 return self.parent.notify_action( Action.APP_LAUNCH, name )

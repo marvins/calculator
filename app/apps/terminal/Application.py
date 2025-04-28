@@ -15,7 +15,7 @@ from widgets.main_footer    import Main_Footer
 import lvgl as lv
 
 
-class App:
+class App( App_Base ):
 
     def __init__( self,
                   config:        Configuration,
@@ -23,6 +23,8 @@ class App:
                   parent ):
 
         self.name          = 'Terminal'
+
+        self.group = lv.group_create()
 
         self.logger = logging.getLogger( 'Terminal_App' )
 
@@ -33,6 +35,8 @@ class App:
 
     def initialize( self ):
 
+        self.logger.info( 'AAAAAAAAAAAAAAAAAAAAAAA' )
+
         #  Main Body Widget
         self.body = lv.obj()
         self.body.set_size( self.config.get_section('screen','width'),
@@ -40,8 +44,8 @@ class App:
         self.body.center()
         self.body.set_layout( lv.LAYOUT.FLEX )
         self.body.set_flex_flow( lv.FLEX_FLOW.COLUMN )
-        self.body.set_style_pad_gap(0, lv.PART.MAIN)
-        self.body.set_style_pad_all(0, lv.PART.MAIN)
+        self.body.set_style_pad_gap( 0, lv.PART.MAIN )
+        self.body.set_style_pad_all( 0, lv.PART.MAIN )
 
         #  Create Header
         self.header = Main_Header( self.config,
@@ -50,6 +54,7 @@ class App:
         self.header.initialize()
 
         #  Build Window
+        self.build_term_window()
 
 
         #  Create Footer
@@ -65,6 +70,21 @@ class App:
         #  Setup Callbacks
         self.init_callbacks()
 
+    def build_term_window(self):
+
+        self.logger.info(f'body width: {self.body.get_width()}')
+        self.window = lv.label( self.body )
+        self.window.set_size( self.body.get_width(),
+                              self.body.get_height() - 30 )
+        
+        
+        self.command_pane = lv.textarea( self.body )
+        self.command_pane.set_one_line( True )
+        self.command_pane.set_size( self.body.get_width(),
+                                    30 )
+        self.command_pane.add_flag( lv.obj.FLAG.EVENT_BUBBLE )
+
+
     def init_callbacks( self ):
 
         #  Callback
@@ -74,15 +94,24 @@ class App:
             if self.is_active == False:
                 return
             
-            self.logger.debug( f'[Terminal] Event: {event.code}, Button Name: {name}' )
-            
             #  Look for escape key
-            print( f'Event: {event.code}, Type: {get_event_name(lv.EVENT, event.code)}, Context: {name}' )
-            if event.code == lv.KEY.ESC:
-                self.parent.notify_action( Action.KEY_ESC )
-        
+            self.logger.info( f'Event: {event.code}, Type: {get_event_name(lv.EVENT, event.code)}, Context: {name}, Key: {event.get_key()}' )
+
+            if event.code == lv.EVENT.KEY:
+                action = Action.keyboard_to_action( event.get_key() )
+                if action == Action.KEY_ESC:
+                    self.logger.info( f'Escape Key Pressed: Moving back to parent page.' )
+                    self.parent.notify_action( Action.KEY_ESC, 'main' )
+
+            #  Enter key will trigger command to execute
+            
+
         #  Setup Event Monitor
-        self.body.add_event_cb( lambda event, event_name = self.name: keyboard_callback(event, event_name), lv.EVENT.ALL, None)
+        self.body.add_event_cb( lambda event,
+                                       event_name = self.name: keyboard_callback(event,
+                                                                                 event_name),
+                                       lv.EVENT.ALL,
+                                       None )
 
     @staticmethod
     def create( config:         Configuration,
