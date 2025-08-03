@@ -31,9 +31,9 @@ add_subdirectory(./lib/lvgl)
 
 
 add_executable(pico_lvgl_display_demo
-    main.c
-    lv_port_indev_picocalc_kb.c
-    lv_port_disp_picocalc_ILI9488.c
+    src/main.cpp
+    src/picocalc/lv_port_indev_picocalc_kb.c
+    src/picocalc/lv_port_disp_picocalc_ILI9488.c
 )
 
 target_compile_options(pico_lvgl_display_demo
