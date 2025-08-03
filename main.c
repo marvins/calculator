@@ -1,9 +1,9 @@
 /**
  * PicoCalc LVGL Graphics Demo
- * 
+ *
  * Demo App Uses LVGL to show demos on the PicoCalc.
- * Implements basic keyboard input and display driver. 
- * 
+ * Implements basic keyboard input and display driver.
+ *
  * Author: HsuahHanLai
  * https://www.hsuanhanlai.com/
  */
@@ -14,11 +14,11 @@
 #include "hardware/gpio.h"
 
 
-#include "lv_conf.h"
-#include "lvgl/lvgl.h"
-#include "lv_port_indev_picocalc_kb.h"
-#include "lv_port_disp_picocalc_ILI9488.h"
-#include "lvgl/demos/lv_demos.h"
+#include <lv_conf.h>
+#include <lvgl/lvgl.h>
+#include <lv_port_indev_picocalc_kb.h>
+#include <lv_port_disp_picocalc_ILI9488.h>
+#include <lvgl/demos/lv_demos.h>
 
 
 #define ILI9488 1

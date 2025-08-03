@@ -1,14 +1,18 @@
-cmake_minimum_required(VERSION 3.16)
 
-# Setup board for Pico 1
-set(PICO_BOARD pico)
+cmake_minimum_required(VERSION 4.0.0 FATAL_ERROR)
 
-# Setup board for Pico 2W
-# set(PICO_BOARD pico2)
+# Setup board for Pico
+#  Pico 1:  pico
+#  Pico 1W: pico_w
+#  Pico 2:  pico2
+#  Pico 2W: pico2_w
+set(PICO_BOARD pico2_w)
 
-include(pico_sdk_import.cmake)
+include( $ENV{PICO_SDK_PATH}/pico_sdk_init.cmake)
 
-project(pico_lvgl_display_demo)
+project( pico_lvgl_display_demo
+    LANGUAGES CXX C
+)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
@@ -18,11 +22,12 @@ include_directories(
   ${CMAKE_CURRENT_LIST_DIR}
 )
 
-
-
+#  Add in each sub-project
 add_subdirectory(i2ckbd)
 add_subdirectory(lcdspi)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/lib/lvgl lvgl)
+
+#  Add in LVGL Library
+add_subdirectory(./lib/lvgl)
 
 
 add_executable(pico_lvgl_display_demo
@@ -31,19 +36,21 @@ add_executable(pico_lvgl_display_demo
     lv_port_disp_picocalc_ILI9488.c
 )
 
-target_compile_options(pico_lvgl_display_demo PRIVATE -DPICOMITE
-										-DPICO_HEAP_SIZE=0x1000 
-										-DGUICONTROLS
-										-DPICO_CORE0_STACK_SIZE=0x1000
-										)
+target_compile_options(pico_lvgl_display_demo
+    PRIVATE
+    -DPICOMITE
+    -DPICO_HEAP_SIZE=0x1000
+    -DGUICONTROLS
+    -DPICO_CORE0_STACK_SIZE=0x1000 )
 
 target_compile_definitions(pico_lvgl_display_demo PRIVATE LV_USE_DEMO_WIDGETS=1)
 
 target_include_directories(pico_lvgl_display_demo PRIVATE
-    ${CMAKE_CURRENT_LIST_DIR}
-    ${CMAKE_CURRENT_LIST_DIR}/lib/lvgl/lvgl
-    ${CMAKE_CURRENT_LIST_DIR}/lib/lvgl/lvgl/src
-    ${CMAKE_CURRENT_LIST_DIR}/lib/lvgl/lvgl/demos
+    ${CMAKE_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/lib
+    ${CMAKE_SOURCE_DIR}/lib/lvgl
+    ${CMAKE_SOURCE_DIR}/lib/lvgl/lvgl/src
+    ${CMAKE_SOURCE_DIR}/lib/lvgl/lvgl/demos
 )
 
 
