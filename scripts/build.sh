@@ -14,7 +14,7 @@ function build_software() {
     mkdir -p build
     pushd build
     cmake ..
-    make
+    make -j
     popd
 }
 

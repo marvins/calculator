@@ -16,8 +16,8 @@
 
 #include <lv_conf.h>
 #include <lvgl/lvgl.h>
-#include <lv_port_indev_picocalc_kb.h>
-#include <lv_port_disp_picocalc_ILI9488.h>
+#include <picocalc/lv_port_indev_picocalc_kb.h>
+#include <picocalc/lv_port_disp_picocalc_ILI9488.h>
 #include <lvgl/demos/lv_demos.h>
 
 
@@ -26,15 +26,12 @@
 
 #define BYTE_PER_PIXEL (LV_COLOR_FORMAT_GET_SIZE(LV_COLOR_FORMAT_RGB565)) /*will be 2 for RGB565 */
 
-
 const unsigned int LEDPIN = 25;
-
-
 
 
 // The event handler
 static void textarea_event_handler(lv_event_t *e) {
-    lv_obj_t *textarea = lv_event_get_target(e);
+    auto textarea = reinterpret_cast<lv_obj_t*>( lv_event_get_target( e ) );
     printf("Textarea: '%s'\n", lv_textarea_get_text(textarea));
 }
 

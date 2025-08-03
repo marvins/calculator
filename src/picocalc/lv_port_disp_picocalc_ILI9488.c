@@ -9,9 +9,9 @@
 /*********************
  *      INCLUDES
  *********************/
-#include "lv_port_disp_picocalc_ILI9488.h"
+#include <picocalc/lv_port_disp_picocalc_ILI9488.h>
 #include <stdbool.h>
-#include "lcdspi/lcdspi.h"
+#include <drivers/lcdspi/lcdspi.h>
 
 
 

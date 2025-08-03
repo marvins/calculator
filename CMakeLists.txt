@@ -13,8 +13,9 @@ include( $ENV{PICO_SDK_PATH}/pico_sdk_init.cmake)
 project( pico_lvgl_display_demo
     LANGUAGES CXX C
 )
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_CXX_STANDARD 17)
+
+set( CMAKE_C_STANDARD   11 )
+set( CMAKE_CXX_STANDARD 20 )
 
 pico_sdk_init()
 
@@ -22,12 +23,12 @@ include_directories(
   ${CMAKE_CURRENT_LIST_DIR}
 )
 
-#  Add in each sub-project
-add_subdirectory(i2ckbd)
-add_subdirectory(lcdspi)
+#  Add in each driver API
+add_subdirectory( src/drivers/i2ckbd )
+add_subdirectory( src/drivers/lcdspi )
 
 #  Add in LVGL Library
-add_subdirectory(./lib/lvgl)
+add_subdirectory( ./lib/lvgl )
 
 
 add_executable(pico_lvgl_display_demo
@@ -51,6 +52,8 @@ target_include_directories(pico_lvgl_display_demo PRIVATE
     ${CMAKE_SOURCE_DIR}/lib/lvgl
     ${CMAKE_SOURCE_DIR}/lib/lvgl/lvgl/src
     ${CMAKE_SOURCE_DIR}/lib/lvgl/lvgl/demos
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/src/drivers
 )
 
 
