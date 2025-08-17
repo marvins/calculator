@@ -1,0 +1,31 @@
+/**************************** INTELLECTUAL PROPERTY RIGHTS ****************************/
+/*                                                                                    */
+/*                           Copyright (c) 2025 Terminus LLC                          */
+/*                                                                                    */
+/*                                All Rights Reserved.                                */
+/*                                                                                    */
+/*          Use of this source code is governed by LICENSE in the repo root.          */
+/*                                                                                    */
+/**************************** INTELLECTUAL PROPERTY RIGHTS ****************************/
+/**
+ * @file    version.hpp
+ * @author  Marvin Smith
+ * @date    4/9/2025
+ *
+ * @details Terminus Auto-Generated Version File
+ */
+#pragma once
+
+namespace tmns {
+
+static constexpr std::string BUILD_DATE() { return "@PROJECT_BUILD_DATE@"; }
+
+static constexpr std::string VERSION() { return "@PROJECT_VERSION@"; }
+
+static constexpr std::string VERSION_MAJOR() { return "@PROJECT_VERSION_MAJOR@"; }
+
+static constexpr std::string VERSION_MINOR() { return "@PROJECT_VERSION_MINOR@"; }
+
+static constexpr std::string VERSION_PATCH() { return "@PROJECT_VERSION_PATCH@"; }
+
+}
