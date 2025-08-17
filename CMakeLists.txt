@@ -14,10 +14,26 @@ project( pico_lvgl_display_demo
     LANGUAGES CXX C
 )
 
+# Where folder for binary data
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+#  Define Language Standards
 set( CMAKE_C_STANDARD   11 )
 set( CMAKE_CXX_STANDARD 20 )
+set( CMAKE_CXX_STANDARD_REQUIRED ON )
 
+#  Setup the Pico SDK
 pico_sdk_init()
+
+#----------------------------------------#
+#-          Update Version File         -#
+#----------------------------------------#
+
+# Get the current date
+string(TIMESTAMP PROJECT_BUILD_DATE "%Y-%m-%d %H:%M:%S" )
+
+configure_file( ${CMAKE_SOURCE_DIR}/templates/version.hpp.in
+                ${CMAKE_BINARY_DIR}/include/terminus/version.hpp )
 
 include_directories(
   ${CMAKE_CURRENT_LIST_DIR}
@@ -30,34 +46,31 @@ add_subdirectory( src/drivers/lcdspi )
 #  Add in LVGL Library
 add_subdirectory( ./lib/lvgl )
 
-
-add_executable(pico_lvgl_display_demo
+add_executable(calculator
     src/main.cpp
     src/picocalc/lv_port_indev_picocalc_kb.c
     src/picocalc/lv_port_disp_picocalc_ILI9488.c
+    src/resources/images/logo_235_65.hpp
 )
 
-target_compile_options(pico_lvgl_display_demo
+target_compile_options(calculator
     PRIVATE
     -DPICOMITE
     -DPICO_HEAP_SIZE=0x1000
     -DGUICONTROLS
     -DPICO_CORE0_STACK_SIZE=0x1000 )
 
-target_compile_definitions(pico_lvgl_display_demo PRIVATE LV_USE_DEMO_WIDGETS=1)
-
-target_include_directories(pico_lvgl_display_demo PRIVATE
+target_include_directories( calculator PRIVATE
     ${CMAKE_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/lib
     ${CMAKE_SOURCE_DIR}/lib/lvgl
     ${CMAKE_SOURCE_DIR}/lib/lvgl/lvgl/src
-    ${CMAKE_SOURCE_DIR}/lib/lvgl/lvgl/demos
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/src/drivers
 )
 
 
-target_link_libraries(pico_lvgl_display_demo
+target_link_libraries(calculator
   pico_stdlib
   hardware_flash
   hardware_irq
@@ -72,9 +85,9 @@ target_link_libraries(pico_lvgl_display_demo
   i2ckbd
   lcdspi
   lvgl
-  lvgl_demos
+  FatFs_SPI
 )
 
-pico_enable_stdio_usb(pico_lvgl_display_demo 0)
-pico_enable_stdio_uart(pico_lvgl_display_demo 1)
-pico_add_extra_outputs(pico_lvgl_display_demo)
+pico_enable_stdio_usb(calculator 0)
+pico_enable_stdio_uart(calculator 1)
+pico_add_extra_outputs(calculator)
